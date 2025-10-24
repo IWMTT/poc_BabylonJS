@@ -1,10 +1,38 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Babylon.js Template</title>
-    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+    <!-- <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+  <script type="module" crossorigin src="/poc_BabylonJS/assets/index.8738912a.js"></script>
+  <link rel="stylesheet" href="/poc_BabylonJS/assets/index.2b98295d.css"> -->
 </head>
 <body>
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://cdn.babylonjs.com/loaders/babylon.glTFFileLoader.js"></script>
+  <canvas id="renderCanvas"></canvas>
+  <script>
+    const canvas = document.getElementById("renderCanvas");
+    const engine = new BABYLON.Engine(canvas, true);
+
+    const createScene = function () {
+      const scene = new BABYLON.Scene(engine);
+      const camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 2, 2, BABYLON.Vector3.Zero(), scene);
+      camera.attachControl(canvas, true);
+      const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+
+      // GLBファイルの読み込み
+      BABYLON.SceneLoader.Append("./models/", "model.glb", scene, function () {
+        console.log("GLBファイルが読み込まれました！");
+      });
+
+      return scene;
+    };
+
+    const scene = createScene();
+    engine.runRenderLoop(() => {
+      scene.render();
+    });
+  </script>
     <canvas id="renderCanvas" touch-action="none"></canvas>
-    <script type="module" src="./index.js"></script>
+    
 </body>
 
